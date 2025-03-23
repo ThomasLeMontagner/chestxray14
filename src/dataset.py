@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 import os
-from typing import List, Optional, Callable, Tuple
+from typing import Optional, Callable
 
 import pandas as pd
 from PIL import Image
@@ -8,19 +10,16 @@ from torch.utils.data import Dataset
 
 
 class ChestXray14Dataset(Dataset):
-    """
-    PyTorch Dataset for the NIH ChestX-ray14 dataset.
-    """
+    """PyTorch Dataset for the NIH ChestX-ray14 dataset."""
 
     def __init__(
         self,
         csv_path: str,
         image_dir: str,
         transform: Optional[Callable] = None,
-        label_names: Optional[List[str]] = None,
+        label_names: Optional[list[str]] = None,
     ) -> None:
-        """
-        Initialize the dataset.
+        """Initialize the dataset.
 
         Args:
             csv_path: Path to the Data_Entry_2017.csv file.
@@ -34,7 +33,7 @@ class ChestXray14Dataset(Dataset):
 
         # Build list of unique labels if not provided
         if label_names is None:
-            all_labels = self.df["Finding Labels"].apply(lambda x: x.split('|'))
+            all_labels = self.df["Finding Labels"].apply(lambda x: x.split("|"))
             flat_labels = [label for sublist in all_labels for label in sublist]
             self.label_names = sorted(set(flat_labels))
         else:
@@ -42,13 +41,15 @@ class ChestXray14Dataset(Dataset):
 
         # Multi-hot encode labels
         for label in self.label_names:
-            self.df[label] = self.df['Finding Labels'].apply(lambda x: 1 if label in x else 0)
+            self.df[label] = self.df["Finding Labels"].apply(
+                lambda x: 1 if label in x else 0
+            )
 
     def __len__(self) -> int:
         """Return number of samples in the dataset."""
         return len(self.df)
 
-    def __getitem__(self, index: int) -> Tuple[torch.Tensor, torch.Tensor]:
+    def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor]:
         """
         Retrieve image and label at a specific index.
 
@@ -66,6 +67,8 @@ class ChestXray14Dataset(Dataset):
             image = self.transform(image)
 
         # Create a multi-hot label tensor
-        label = torch.tensor([row[label] for label in self.label_names], dtype=torch.float32)
+        label = torch.tensor(
+            [row[label] for label in self.label_names], dtype=torch.float32
+        )
 
         return image, label
