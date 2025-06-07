@@ -22,7 +22,7 @@ class ChestXray14Dataset(Dataset):
         """Initialize the dataset.
 
         Args:
-            csv_path: Path to the Data_Entry_2017.csv file.
+            csv_path: Path to the NIH metadata CSV file (e.g., Data_Entry_2017_v2020.csv).
             image_dir: Directory where image files are stored.
             transform: Optional transforms to apply to each image.
             label_names: Optional list of disease labels to use (if None, infer from data).
