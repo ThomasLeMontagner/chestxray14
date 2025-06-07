@@ -15,6 +15,13 @@ This project applies PyTorch to classify 14 thoracic diseases using the NIH Ches
 ## Results
 Work in progress.
 
+## Usage
+Install the required dependencies and run the training script from the repository root:
+
+```bash
+python -m src.main
+```
+
 ## Future Work
 - ONNX export
 - Quantization/pruning
