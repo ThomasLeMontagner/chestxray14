@@ -42,7 +42,7 @@ class ChestXray14Dataset(Dataset):
         # Multi-hot encode labels
         for label in self.label_names:
             self.df[label] = self.df["Finding Labels"].apply(
-                lambda x: 1 if label in x else 0
+                lambda x: 1 if label in x.split("|") else 0
             )
 
     def __len__(self) -> int:
