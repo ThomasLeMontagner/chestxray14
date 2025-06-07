@@ -25,3 +25,4 @@ python -m src.main
 ## Future Work
 - ONNX export
 - Quantization/pruning
+
